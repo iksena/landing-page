@@ -1,13 +1,16 @@
 import { Layout, Menu } from 'antd';
 import Head from 'next/head';
+import Image from 'next/image';
 
-import { getPosts, getPostById } from '../../lib/baserow';
+import { getPosts, getPostById } from '../lib/baserow';
 
 const {
   Header, Footer, Content,
 } = Layout;
 
-function Post({ title, id, name }) {
+function Post({
+  title, id, name, images,
+}) {
   return (
     <>
       <Head>
@@ -29,6 +32,15 @@ function Post({ title, id, name }) {
         <Content style={{ padding: '0 50px' }}>
           {title}
           {id}
+          {images.map((image) => (
+            <Image
+              key={image.uploaded_at}
+              src={image.url}
+              alt={image.name}
+              width={100}
+              height="100%"
+            />
+          ))}
         </Content>
       </Layout>
 
