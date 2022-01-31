@@ -38,7 +38,7 @@ function Home() {
           Powered by
           {' '}
           <span>
-            I Komang Sena Aji Buwana
+            Sena Aji
           </span>
         </a>
       </Footer>

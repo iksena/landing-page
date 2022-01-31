@@ -1,20 +1,22 @@
-import { Layout, Menu } from 'antd';
+import {
+  Layout, Image, List,
+} from 'antd';
 import Head from 'next/head';
-import Image from 'next/image';
 
 import { getPosts, getPostById } from '../lib/baserow';
+import MenuBar from './components/menu-bar';
 
 const {
   Header, Footer, Content,
 } = Layout;
 
 function Post({
-  title, id, name, images,
+  title, images, posts,
 }) {
   return (
     <>
       <Head>
-        <title>{name}</title>
+        <title>{title}</title>
         <meta name="description" content={title} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -22,38 +24,36 @@ function Post({
       <Layout className="layout">
         <Header>
           <div className="logo" />
-          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-            {new Array(7).fill(null).map((_, index) => {
-              const key = index + 1;
-              return <Menu.Item key={key}>{`nav ${key}`}</Menu.Item>;
-            })}
-          </Menu>
+          <MenuBar pages={posts} />
         </Header>
         <Content style={{ padding: '0 50px' }}>
-          {title}
-          {id}
-          {images.map((image) => (
-            <Image
-              key={image.uploaded_at}
-              src={image.url}
-              alt={image.name}
-              width={100}
-              height="100%"
+          <Image.PreviewGroup>
+            <List
+              dataSource={images}
+              grid={{ gutter: 50, column: 3 }}
+              renderItem={(image) => (
+                <Image
+                  key={image.uploaded_at}
+                  src={image.url}
+                  alt={image.name}
+                />
+              )}
             />
-          ))}
+          </Image.PreviewGroup>
         </Content>
       </Layout>
 
       <Footer style={{ textAlign: 'center' }}>
+        Powered by
+        {' '}
         <a
           href="https://sena.omg.lol"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by
-          {' '}
+
           <span>
-            I Komang Sena Aji Buwana
+            Sena Aji
           </span>
         </a>
       </Footer>
@@ -78,11 +78,13 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
+  const { data: { results: posts } } = await getPosts();
   const { data } = await getPostById(params.id);
 
   return {
     props: {
       ...data,
+      posts,
     },
   };
 }
