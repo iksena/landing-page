@@ -6,7 +6,7 @@ function MenuBar({ pages }) {
   const { query } = useRouter();
 
   return (
-    <Menu theme="dark" mode="horizontal" selectedKeys={[query.id]}>
+    <Menu mode="horizontal" selectedKeys={[query.id]} style={{ background: '#f6f3f2' }}>
       {pages.map(({ id, name }) => <Menu.Item key={id}><Link href={`/${id}`}>{name}</Link></Menu.Item>)}
     </Menu>
   );
