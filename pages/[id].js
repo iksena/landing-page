@@ -5,6 +5,7 @@ import Head from 'next/head';
 import NextImage from 'next/image';
 import ReactPlayer from 'react-player/youtube';
 
+import Link from 'next/link';
 import { getPosts, getPostById } from '../lib/baserow';
 import MenuBar from '../components/menu-bar';
 
@@ -26,7 +27,9 @@ function Post({
         <BackTop />
         <Header style={{ background: '#f6f3f2' }}>
           <Row align="middle">
-            <NextImage src="/logo.webp" layout="fixed" width="310" height="44" />
+            <Link href="/" passHref>
+              <NextImage src="/logo.webp" layout="fixed" width="310" height="44" />
+            </Link>
             <MenuBar pages={posts} />
           </Row>
         </Header>
@@ -43,6 +46,7 @@ function Post({
               color: 'blue',
               lineHeight: '160px',
               textAlign: 'center',
+              marginVertical: 16,
             }}
           >
             {!!video && (<ReactPlayer url={video} height="30vw" width="100%" />)}

@@ -3,6 +3,7 @@ import {
 } from 'antd';
 import Head from 'next/head';
 import NextImage from 'next/image';
+import Link from 'next/link';
 
 import MenuBar from '../components/menu-bar';
 import { getPosts } from '../lib/baserow';
@@ -33,20 +34,24 @@ function Home({ posts }) {
             dataSource={posts}
             grid={{ gutter: 50, column: 4 }}
             renderItem={(post) => (
-              <Card
-                style={{ width: 350 }}
-                cover={(
-                  <Image
-                    alt={post.name}
-                    src={post.images?.[0]?.url}
+              <Link href={`/${post.id}`} passHref>
+                <Card
+                  style={{ width: 350 }}
+                  cover={(
+                    <Image
+                      preview={false}
+                      alt={post.name}
+                      src={post.images?.[0]?.url}
+                    />
+                  )}
+                  hoverable
+                >
+                  <Card.Meta
+                    title={post.title}
+                    description={post.description}
                   />
-                )}
-              >
-                <Card.Meta
-                  title={post.title}
-                  description={post.description}
-                />
-              </Card>
+                </Card>
+              </Link>
             )}
           />
         </Content>
